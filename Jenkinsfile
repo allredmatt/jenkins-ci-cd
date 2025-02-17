@@ -24,6 +24,7 @@ pipeline {
 				echo "Build Tag: $env.BUILD_TAG"
 				echo "Build URL: $env.BUILD_URL"
 				echo "Job Name: $env.JOB_NAME"
+				echo "Docker Cert Path: $env.DOCKER_CERT_PATH"  
 			}
 			post {
 				always{
