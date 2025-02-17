@@ -17,4 +17,15 @@ pipeline {
 			}
 		}
 	}
+	post {
+		always {
+			echo 'I always run'
+		}
+		success {
+			echo 'I run if successful'
+		}
+		failure {
+			echo 'I failed to build'
+		}
+	}
 }
