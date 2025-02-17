@@ -33,7 +33,7 @@ pipeline {
 		}
 		stage('Compile') {
 			steps {
-				sh "mvn clean compile"
+				sh "mvn clean compile -e"
 			}
 		}
 		stage('Test') {
@@ -44,6 +44,14 @@ pipeline {
 		stage('Integration') {
 			steps {
 				echo 'Integration'
+			}
+		}
+		stage('Build Docker Image'){
+			steps{
+				//docker build -t allredmatt/currency-exchange-devops:$env.BUILD_TAG
+				script {
+					docker.build("allredmatt/currency-exchange-devops:${env.BUILD_TAG}")
+				}
 			}
 		}
 	}
