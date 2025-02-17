@@ -46,7 +46,7 @@ pipeline {
 				echo 'Integration'
 			}
 		}
-		stages('Package') {
+		stage('Package') {
 			steps {
 				sh "mvn package -DskipTests"
 			}
