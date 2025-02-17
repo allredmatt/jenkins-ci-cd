@@ -46,11 +46,27 @@ pipeline {
 				echo 'Integration'
 			}
 		}
-		stage('Build Docker Image'){
+		stages('Package') {
+			steps {
+				sh "mvn package -DskipTests"
+			}
+		}
+
+		stage('Build Docker Image') {
 			steps{
 				//docker build -t allredmatt/currency-exchange-devops:$env.BUILD_TAG
 				script {
-					docker.build("allredmatt/currency-exchange-devops:${env.BUILD_TAG}")
+					dockerImage = docker.build("allredmatt/currency-exchange-devops:${env.BUILD_TAG}")
+				}
+			}
+		}
+		stage('Push docker Image') {
+			steps {
+				script {
+					docker.withRegistry('', 'docker-hub-credentials') {
+						dockerImage.push()
+						dockerImage.push('latest')
+					}
 				}
 			}
 		}
