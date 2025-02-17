@@ -25,6 +25,7 @@ pipeline {
 				echo "Build URL: $env.BUILD_URL"
 				echo "Job Name: $env.JOB_NAME"
 				echo "Docker Cert Path: $env.DOCKER_CERT_PATH"  
+				echo "Docker Cert Path: $env.DOCKER_TLS_CERTDIR"  
 			}
 			post {
 				always{
@@ -32,45 +33,45 @@ pipeline {
 				}
 			}
 		}
-		stage('Compile') {
-			steps {
-				sh "mvn clean compile -e"
-			}
-		}
-		stage('Test') {
-			steps {
-				sh "mvn test"
-			}
-		}
-		stage('Integration') {
-			steps {
-				echo 'Integration'
-			}
-		}
-		stage('Package') {
-			steps {
-				sh "mvn package -DskipTests"
-			}
-		}
+		// stage('Compile') {
+		// 	steps {
+		// 		sh "mvn clean compile -e"
+		// 	}
+		// }
+		// stage('Test') {
+		// 	steps {
+		// 		sh "mvn test"
+		// 	}
+		// }
+		// stage('Integration') {
+		// 	steps {
+		// 		echo 'Integration'
+		// 	}
+		// }
+		// stage('Package') {
+		// 	steps {
+		// 		sh "mvn package -DskipTests"
+		// 	}
+		// }
 
-		stage('Build Docker Image') {
-			steps{
-				//docker build -t allredmatt/currency-exchange-devops:$env.BUILD_TAG
-				script {
-					dockerImage = docker.build("allredmatt/currency-exchange-devops:${env.BUILD_TAG}")
-				}
-			}
-		}
-		stage('Push docker Image') {
-			steps {
-				script {
-					docker.withRegistry('', 'docker-hub-credentials') {
-						dockerImage.push()
-						dockerImage.push('latest')
-					}
-				}
-			}
-		}
+		// stage('Build Docker Image') {
+		// 	steps{
+		// 		//docker build -t allredmatt/currency-exchange-devops:$env.BUILD_TAG
+		// 		script {
+		// 			dockerImage = docker.build("allredmatt/currency-exchange-devops:${env.BUILD_TAG}")
+		// 		}
+		// 	}
+		// }
+		// stage('Push docker Image') {
+		// 	steps {
+		// 		script {
+		// 			docker.withRegistry('', 'docker-hub-credentials') {
+		// 				dockerImage.push()
+		// 				dockerImage.push('latest')
+		// 			}
+		// 		}
+		// 	}
+		// }
 	}
 	post {
 		always {
