@@ -6,7 +6,9 @@ pipeline {
 				echo 'Build'
 			}
 			post {
-				echo "I run at the end of the build stage"
+				always{
+					echo "I run at the end of the build stage"
+				}
 			}
 		}
 		stage('Test') {
