@@ -7,7 +7,7 @@ pipeline {
 			}
 			post {
 				always{
-					echo "I run at the end of the build stage"
+					echo 'I run at the end of the build stage'
 				}
 			}
 		}
